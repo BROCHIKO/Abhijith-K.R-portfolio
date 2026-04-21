@@ -11,16 +11,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     :root {
-        --bg-color: #0b0f19;
-        --bg-secondary: #111827;
-        --text-primary: #f3f4f6;
-        --text-secondary: #9ca3af;
-        --accent-1: #3b82f6;
-        --accent-2: #8b5cf6;
-        --accent-gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --card-border: rgba(255, 255, 255, 0.08);
-        --card-hover-border: rgba(139, 92, 246, 0.5);
+        --bg-color: #080a10;
+        --bg-secondary: #0c101a;
+        --text-primary: #ffffff;
+        --text-secondary: #a3b3cc;
+        --accent-1: #00e5ff;
+        --accent-2: #ffffff;
+        --accent-gradient: linear-gradient(135deg, #00e5ff, #0073ff);
+        --card-bg: rgba(255, 255, 255, 0.02);
+        --card-border: rgba(255, 255, 255, 0.06);
+        --card-hover-border: rgba(0, 229, 255, 0.5);
     }
 
     * {
@@ -45,15 +45,15 @@
         width: 100vw;
         height: 100vh;
         z-index: -1;
-        background: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-                    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+        background: radial-gradient(circle at 15% 50%, rgba(0, 115, 255, 0.15), transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.15), transparent 25%);
         pointer-events: none;
         transition: transform 0.2s ease-out;
     }
 
     /* Navbar */
     header {
-        position: fixed;
+        position: sticky;
         top: 0;
         width: 100%;
         padding: 1.5rem 5%;
@@ -61,9 +61,11 @@
         justify-content: space-between;
         align-items: center;
         z-index: 1000;
-        background: rgba(11, 15, 25, 0.8);
-        backdrop-filter: blur(10px);
+        background: rgba(8, 10, 16, 0.6);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         border-bottom: 1px solid var(--card-border);
+        transition: padding 0.3s ease, background 0.3s ease;
     }
 
     .logo {
@@ -79,7 +81,7 @@
     nav ul {
         display: flex;
         list-style: none;
-        gap: 2rem;
+        gap: 2.5rem;
     }
 
     nav a {
@@ -88,10 +90,28 @@
         font-weight: 500;
         font-size: 0.95rem;
         transition: color 0.3s ease;
+        position: relative;
+        padding-bottom: 5px;
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--accent-1);
+        transition: width 0.3s ease;
+        box-shadow: 0 0 10px var(--accent-1);
     }
 
     nav a:hover {
         color: var(--accent-1);
+    }
+
+    nav a:hover::after {
+        width: 100%;
     }
 
     /* Sections */
@@ -121,16 +141,17 @@
     .hero {
         min-height: 100vh;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
-        text-align: center;
-        padding-top: 6rem;
-        background-image: url('hero-bg.png.png');
+        text-align: left;
+        padding: 6rem 5% 0;
+        position: relative;
+        overflow: hidden;
+        background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop');
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
+        background-attachment: fixed;
     }
 
     .hero::before {
@@ -140,7 +161,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(11, 15, 25, 0.7);
+        background: linear-gradient(135deg, rgba(8, 10, 16, 0.95) 0%, rgba(0, 115, 255, 0.2) 100%);
         z-index: 0;
     }
 
@@ -149,22 +170,82 @@
         z-index: 1;
     }
 
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        opacity: 0;
+    }
+
+    .profile-photo {
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--accent-1);
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.5), 0 0 50px rgba(0, 115, 255, 0.3);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.05);
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: var(--accent-1); }
+    }
+
+    @keyframes gradientFlow {
+        0% { background-position: 0% center; }
+        100% { background-position: 200% center; }
+    }
+
     .hero-title {
-        font-size: clamp(3rem, 8vw, 5rem);
+        font-size: clamp(3rem, 5vw, 4.5rem);
         font-weight: 800;
         letter-spacing: -0.02em;
         margin-bottom: 1rem;
-        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        /* Animated Typing Text */
+        overflow: hidden;
+        border-right: .15em solid var(--accent-1);
+        white-space: nowrap;
+        margin: 0 auto 1rem 0;
+        animation: 
+            typing 2s steps(40, end) forwards,
+            blink-caret .75s step-end infinite,
+            gradientFlow 5s linear infinite;
+        background: linear-gradient(to right, #00e5ff, #ffffff, #00e5ff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        max-width: fit-content;
     }
 
     .hero-subtitle {
-        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-size: clamp(1.2rem, 2vw, 1.5rem);
         color: var(--text-secondary);
         font-weight: 400;
-        max-width: 700px;
+        max-width: 600px;
         margin-bottom: 2.5rem;
         opacity: 0;
-        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
     }
 
     .hero-cta {
@@ -180,12 +261,12 @@
         font-size: 1.1rem;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         opacity: 0;
-        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+        animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards;
     }
 
     .hero-cta:hover {
         transform: translateY(-3px);
-        box-shadow: 0 0 25px rgba(59, 130, 246, 0.7), 0 0 45px rgba(139, 92, 246, 0.5);
+        box-shadow: 0 0 25px rgba(0, 229, 255, 0.7), 0 0 45px rgba(0, 115, 255, 0.5);
     }
 
     /* About */
@@ -220,7 +301,7 @@
     .card:hover {
         border-color: var(--card-hover-border);
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(139, 92, 246, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 229, 255, 0.3);
     }
 
     .card-icon {
@@ -252,46 +333,191 @@
         text-transform: uppercase;
     }
 
-    /* Skills */
-    .skills-wrapper {
+    /* Service Cards */
+    .service-card {
+        background: linear-gradient(135deg, rgba(0, 229, 255, 0.05) 0%, rgba(0, 115, 255, 0.05) 100%);
+        border: 1px solid rgba(0, 229, 255, 0.15);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.5s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
-        gap: 3.5rem;
+        align-items: center;
     }
 
-    .skills-category {
-        text-align: center;
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(0, 115, 255, 0.15) 100%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 0;
     }
 
-    .skills-category h3 {
+    .service-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .service-card:hover {
+        transform: scale(1.03);
+        border-color: rgba(0, 229, 255, 0.5);
+        box-shadow: 0 10px 40px rgba(0, 229, 255, 0.2);
+    }
+
+    .service-card:hover::before {
+        opacity: 1;
+    }
+
+    .service-icon {
+        font-size: 3.5rem;
         margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-
-    .skills-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-    }
-
-    .skill-tag {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 0.8rem 1.8rem;
-        border-radius: 30px;
-        font-size: 1rem;
         color: var(--text-primary);
-        transition: all 0.3s ease;
-        font-weight: 500;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.3));
     }
 
-    .skill-tag:hover {
-        background: rgba(255, 255, 255, 0.1);
+    .service-title {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .service-card p {
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+
+    /* Project Cards */
+    .project-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-top: 4px solid var(--accent-1);
+        border-radius: 15px;
+        padding: 2.5rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .project-card:hover {
+        border-color: var(--card-hover-border);
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+
+    .project-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+        padding: 0.8rem 1.5rem;
+        background: rgba(0, 229, 255, 0.1);
+        color: var(--accent-1);
+        border: 1px solid var(--accent-1);
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+    }
+
+    .project-btn:hover {
+        background: var(--accent-gradient);
+        color: #fff;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .skill-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 15px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skill-card:hover {
         border-color: var(--accent-1);
-        transform: scale(1.05) translateY(-2px);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 229, 255, 0.2);
+    }
+
+    .skill-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .skill-icon {
+        font-size: 1.8rem;
+        color: var(--accent-1);
+    }
+
+    .skill-details {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .skill-details h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .skill-percent {
+        font-size: 0.9rem;
+        color: var(--accent-1);
+        font-weight: 700;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--accent-gradient);
+        border-radius: 10px;
+        width: 0;
+        transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    }
+
+    .reveal.active .progress-bar {
+        width: var(--target-width);
     }
 
     /* Contact / Footer */
@@ -303,37 +529,103 @@
         margin-top: 4rem;
     }
 
-    .contact-links {
+    .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        max-width: 1200px;
+        margin: 0 auto 3rem;
+        text-align: left;
+    }
+
+    .contact-links-vertical {
         display: flex;
-        justify-content: center;
-        gap: 2.5rem;
-        margin-bottom: 3.5rem;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
     .contact-item {
         display: flex;
         align-items: center;
-        gap: 0.8rem;
+        gap: 1rem;
         color: var(--text-secondary);
         text-decoration: none;
         font-size: 1.1rem;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
         background: var(--card-bg);
         padding: 1rem 1.5rem;
         border-radius: 12px;
         border: 1px solid var(--card-border);
+        width: fit-content;
     }
 
     .contact-item:hover {
         color: #fff;
         border-color: var(--accent-1);
-        background: rgba(59, 130, 246, 0.1);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        background: rgba(0, 115, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        transform: translateX(10px);
     }
 
     .contact-item i {
         color: var(--accent-1);
+        font-size: 1.2rem;
+    }
+
+    /* Contact Form */
+    .contact-form-container {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 1rem 1.5rem;
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+        outline: none;
+        border-color: var(--accent-1);
+        background: rgba(0, 229, 255, 0.05);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--accent-gradient);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
     }
 
     .footer-bottom {
@@ -341,6 +633,14 @@
         font-size: 0.9rem;
         padding-top: 2rem;
         border-top: 1px solid rgba(255,255,255,0.05);
+        text-align: center;
+    }
+
+    @media (max-width: 900px) {
+        .contact-container {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
     }
 
     /* Animations */
@@ -360,9 +660,83 @@
         transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .reveal.active {
+    .reveal-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active, .reveal-left.active, .reveal-right.active {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate(0, 0);
+    }
+
+    /* Timeline */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: var(--card-border);
+    }
+
+    .timeline-item {
+        position: relative;
+        width: 50%;
+        padding: 2rem 3rem;
+        box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(odd) {
+        left: 0;
+        text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 50%;
+        text-align: left;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        top: 2.5rem;
+        right: -25px;
+        width: 50px;
+        height: 50px;
+        background: var(--bg-secondary);
+        border: 2px solid var(--accent-1);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        color: var(--accent-1);
+        font-size: 1.2rem;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+        left: -25px;
+    }
+
+    .timeline-content {
+        padding: 2rem;
     }
 
     /* Mobile Nav */
@@ -394,6 +768,61 @@
         nav ul.show {
             left: 0;
         }
+
+        section {
+            padding: 5rem 5% 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero {
+            padding-top: 8rem;
+            flex-direction: column-reverse;
+            text-align: center;
+            gap: 3rem;
+        }
+
+        .hero-title {
+            margin: 0 auto 1rem auto;
+            white-space: normal; /* Turn off nowrap for mobile */
+            border-right: none;
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Mobile Timeline */
+        .timeline::before {
+            left: 20px;
+        }
+        .timeline-item {
+            width: 100%;
+            padding: 2rem 0 2rem 4rem;
+        }
+        .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
+            left: 0;
+            text-align: left;
+        }
+        .timeline-dot, .timeline-item:nth-child(even) .timeline-dot {
+            left: -5px;
+            right: auto;
+        }
+
+        .profile-photo {
+            width: 280px;
+            height: 280px;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 </head>
@@ -418,9 +847,14 @@
     </header>
 
     <section class="hero reveal" id="home">
-        <h1 class="hero-title">ABHIJITH K R</h1>
-        <p class="hero-subtitle">SEO Analyst & Digital Marketer. Driving Growth Through Data-Driven Strategies.</p>
-        <a href="#contact" class="hero-cta">Let's Connect <i class="fas fa-arrow-right"></i></a>
+        <div class="hero-content">
+            <h1 class="hero-title">ABHIJITH K R</h1>
+            <p class="hero-subtitle">SEO Analyst & Digital Marketer. Driving Growth Through Data-Driven Strategies.</p>
+            <a href="#contact" class="hero-cta">Let's Connect <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="hero-image-container">
+            <img src="hero-bg.png.png" alt="Abhijith K R" class="profile-photo">
+        </div>
     </section>
 
     <section id="about" class="reveal">
@@ -436,19 +870,19 @@
     <section id="services" class="reveal">
         <h2 class="section-title">Services</h2>
         <div class="grid">
-            <div class="card">
-                <i class="fas fa-search card-icon"></i>
-                <h3>Search Engine Optimization (SEO)</h3>
+            <div class="service-card">
+                <i class="fas fa-search service-icon"></i>
+                <h3 class="service-title">Search Engine Optimization (SEO)</h3>
                 <p>Comprehensive on-page, off-page, and technical SEO strategies to improve search rankings, increase organic traffic, and resolve indexing or crawl issues.</p>
             </div>
-            <div class="card">
-                <i class="fas fa-bullhorn card-icon"></i>
-                <h3>Meta Ads Management</h3>
+            <div class="service-card">
+                <i class="fas fa-bullhorn service-icon"></i>
+                <h3 class="service-title">Meta Ads Management</h3>
                 <p>End-to-end campaign management for Facebook & Instagram, focusing on lead generation, A/B testing, and optimizing ROI through data insights.</p>
             </div>
-            <div class="card">
-                <i class="fas fa-chart-line card-icon"></i>
-                <h3>Website & Content Optimization</h3>
+            <div class="service-card">
+                <i class="fas fa-chart-line service-icon"></i>
+                <h3 class="service-title">Website & Content Optimization</h3>
                 <p>Performing in-depth keyword research, SEO audits, page speed improvements, and WordPress development to enhance user experience and visibility.</p>
             </div>
         </div>
@@ -456,33 +890,42 @@
 
     <section id="experience" class="reveal">
         <h2 class="section-title">Experience</h2>
-        <div class="grid">
-            <div class="card">
-                <p class="date">Oct 2025 – Present</p>
-                <h3>SEO Analyst</h3>
-                <p><strong>RedTeam Hacker Academy | Kochi, India</strong></p>
-                <br>
-                <p>• Optimize cybersecurity course pages for targeted keywords like "cybersecurity course in Kerala."</p>
-                <p>• Resolve technical SEO issues including canonical errors and crawl problems.</p>
-                <p>• Monitor performance and conduct comprehensive SEO audits to improve page speed and performance.</p>
+        <div class="timeline">
+            <div class="timeline-item reveal-left">
+                <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
+                <div class="timeline-content card">
+                    <p class="date">Oct 2025 – Present</p>
+                    <h3>SEO Analyst</h3>
+                    <p><strong>RedTeam Hacker Academy | Kochi, India</strong></p>
+                    <br>
+                    <p>• Optimize cybersecurity course pages for targeted keywords like "cybersecurity course in Kerala."</p>
+                    <p>• Resolve technical SEO issues including canonical errors and crawl problems.</p>
+                    <p>• Monitor performance and conduct comprehensive SEO audits to improve page speed and performance.</p>
+                </div>
             </div>
-            <div class="card">
-                <p class="date">2025 – Present</p>
-                <h3>Freelance Digital Marketer</h3>
-                <p><strong>Remote</strong></p>
-                <br>
-                <p>• Manage Meta Ads campaigns (Facebook & Instagram) for lead generation and brand awareness.</p>
-                <p>• Create engaging ad creatives, targeting strategies, and perform A/B testing.</p>
-                <p>• Track and optimize campaign performance using Meta Ads insights to improve conversions.</p>
+            <div class="timeline-item reveal-right">
+                <div class="timeline-dot"><i class="fas fa-laptop-house"></i></div>
+                <div class="timeline-content card">
+                    <p class="date">2025 – Present</p>
+                    <h3>Freelance Digital Marketer</h3>
+                    <p><strong>Remote</strong></p>
+                    <br>
+                    <p>• Manage Meta Ads campaigns (Facebook & Instagram) for lead generation and brand awareness.</p>
+                    <p>• Create engaging ad creatives, targeting strategies, and perform A/B testing.</p>
+                    <p>• Track and optimize campaign performance using Meta Ads insights to improve conversions.</p>
+                </div>
             </div>
-            <div class="card">
-                <p class="date">2025</p>
-                <h3>Digital Marketing Intern</h3>
-                <p><strong>Bluepin Digitals</strong></p>
-                <br>
-                <p>• Conducted SEO keyword research, on-page optimization, and backlink building.</p>
-                <p>• Assisted in Google Ads campaign setup and optimization.</p>
-                <p>• Supported social media marketing campaigns on Facebook and Instagram.</p>
+            <div class="timeline-item reveal-left">
+                <div class="timeline-dot"><i class="fas fa-chart-bar"></i></div>
+                <div class="timeline-content card">
+                    <p class="date">2025</p>
+                    <h3>Digital Marketing Intern</h3>
+                    <p><strong>Bluepin Digitals</strong></p>
+                    <br>
+                    <p>• Conducted SEO keyword research, on-page optimization, and backlink building.</p>
+                    <p>• Assisted in Google Ads campaign setup and optimization.</p>
+                    <p>• Supported social media marketing campaigns on Facebook and Instagram.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -490,47 +933,102 @@
     <section id="projects" class="reveal">
         <h2 class="section-title">Featured Projects</h2>
         <div class="grid">
-            <div class="card">
-                <i class="fas fa-shield-alt card-icon"></i>
-                <h3>Cybersecurity Course Optimization</h3>
-                <p><strong>RedTeam Hacker Academy</strong></p>
-                <br>
-                <p>Spearheaded the technical and on-page SEO strategy for local cybersecurity courses, resolving crawl issues and improving search visibility for high-intent keywords in the Kerala region.</p>
+            <div class="project-card">
+                <div>
+                    <i class="fas fa-shield-alt card-icon"></i>
+                    <h3>Cybersecurity Course Optimization</h3>
+                    <p><strong>RedTeam Hacker Academy</strong></p>
+                    <br>
+                    <p>Spearheaded the technical and on-page SEO strategy for local cybersecurity courses, resolving crawl issues and improving search visibility for high-intent keywords in the Kerala region.</p>
+                </div>
+                <a href="#" class="project-btn">View Project <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card">
-                <i class="fas fa-ad card-icon"></i>
-                <h3>Lead Gen Meta Campaigns</h3>
-                <p><strong>Freelance Project</strong></p>
-                <br>
-                <p>Designed and managed targeted Facebook and Instagram ad campaigns focusing on high-quality lead generation, utilizing A/B testing on creatives and audiences to lower CPA and increase engagement.</p>
+            <div class="project-card">
+                <div>
+                    <i class="fas fa-ad card-icon"></i>
+                    <h3>Lead Gen Meta Campaigns</h3>
+                    <p><strong>Freelance Project</strong></p>
+                    <br>
+                    <p>Designed and managed targeted Facebook and Instagram ad campaigns focusing on high-quality lead generation, utilizing A/B testing on creatives and audiences to lower CPA and increase engagement.</p>
+                </div>
+                <a href="#" class="project-btn">View Project <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <section id="skills" class="reveal">
         <h2 class="section-title">Skills & Expertise</h2>
-        <div class="skills-wrapper">
-            <div class="skills-category">
-                <h3>Technical Skills</h3>
-                <div class="skills-container">
-                    <span class="skill-tag">Technical SEO</span>
-                    <span class="skill-tag">Keyword Research</span>
-                    <span class="skill-tag">Google Analytics</span>
-                    <span class="skill-tag">Google Search Console</span>
-                    <span class="skill-tag">WordPress Development</span>
-                    <span class="skill-tag">Meta Ads (FB & IG)</span>
-                    <span class="skill-tag">Content Optimization</span>
-                    <span class="skill-tag">SEMrush</span>
-                    <span class="skill-tag">Page Speed Optimization</span>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fas fa-search skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>Technical SEO</h4>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 95%;"></div>
                 </div>
             </div>
-            <div class="skills-category">
-                <h3>Soft Skills</h3>
-                <div class="skills-container">
-                    <span class="skill-tag">Analytical Thinking</span>
-                    <span class="skill-tag">Time Management</span>
-                    <span class="skill-tag">Problem Solving</span>
-                    <span class="skill-tag">Adaptability</span>
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fas fa-chart-line skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>Google Analytics</h4>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 90%;"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fas fa-ad skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>Meta Ads (FB & IG)</h4>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 85%;"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fas fa-pen-nib skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>Content Optimization</h4>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 90%;"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fab fa-wordpress skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>WordPress Development</h4>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 80%;"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-info">
+                    <i class="fas fa-bolt skill-icon"></i>
+                    <div class="skill-details">
+                        <h4>Page Speed Optimization</h4>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="--target-width: 85%;"></div>
                 </div>
             </div>
         </div>
@@ -562,21 +1060,40 @@
         </div>
     </section>
 
-    <footer id="contact">
-        <h2 class="section-title">Let's Work Together</h2>
-        <div class="contact-links">
-            <a href="mailto:abhijithkr0007@gmail.com" class="contact-item">
-                <i class="fas fa-envelope"></i> abhijithkr0007@gmail.com
-            </a>
-            <a href="tel:+919895239195" class="contact-item">
-                <i class="fas fa-phone-alt"></i> +91-9895239195
-            </a>
-            <a href="https://www.linkedin.com/in/abhijith-kr" target="_blank" class="contact-item">
-                <i class="fab fa-linkedin"></i> LinkedIn Profile
-            </a>
-            <span class="contact-item">
-                <i class="fas fa-map-marker-alt"></i> Kochi, India
-            </span>
+    <footer id="contact" class="reveal">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="section-title" style="text-align: left;">Let's Work Together</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or want to improve your search rankings? Let's talk!</p>
+                <div class="contact-links-vertical">
+                    <a href="mailto:abhijithkr0007@gmail.com" class="contact-item">
+                        <i class="fas fa-envelope"></i> abhijithkr0007@gmail.com
+                    </a>
+                    <a href="tel:+919895239195" class="contact-item">
+                        <i class="fas fa-phone-alt"></i> +91-9895239195
+                    </a>
+                    <a href="https://www.linkedin.com/in/abhijith-kr" target="_blank" class="contact-item">
+                        <i class="fab fa-linkedin"></i> LinkedIn Profile
+                    </a>
+                    <span class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i> Kochi, India
+                    </span>
+                </div>
+            </div>
+            <div class="contact-form-container">
+                <form class="contact-form" action="#" method="POST" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Abhijith KR. All Rights Reserved.</p>
@@ -615,7 +1132,7 @@
             });
         }, revealOptions);
 
-        document.querySelectorAll('.reveal').forEach((section) => {
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((section) => {
             observer.observe(section);
         });
 
@@ -629,7 +1146,7 @@
         });
 
         // 3D Tilt Effect for Experience/Project Cards
-        const cards = document.querySelectorAll('.card');
+        const cards = document.querySelectorAll('.card, .project-card, .skill-card, .service-card');
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
