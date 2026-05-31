@@ -598,6 +598,142 @@
             margin: 0 auto;
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem 5%;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            max-width: 900px;
+            margin: 2rem auto;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 2rem 3rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--accent);
+        }
+
+        .modal-body {
+            padding: 3rem;
+            color: var(--text-primary);
+        }
+
+        .resume-section {
+            margin-bottom: 3rem;
+        }
+
+        .resume-section h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .resume-section h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .resume-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .resume-contact {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .resume-list {
+            list-style: none;
+        }
+
+        .resume-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .resume-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .resume-job {
+            margin-bottom: 2rem;
+        }
+
+        .resume-job h5 {
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .resume-date {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
         /* Animations */
         .reveal {
             opacity: 0;
@@ -688,7 +824,7 @@
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Work</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="Abhijith_KR_CV.docx" target="_blank" style="color: var(--text-primary); font-weight: 700; border: 1px solid var(--text-primary); padding: 0.3rem 0.8rem; border-radius: 50px;">Resume</a></li>
+                <li><a href="#" id="resume-link" style="color: var(--text-primary); font-weight: 700; border: 1px solid var(--text-primary); padding: 0.3rem 0.8rem; border-radius: 50px;">Resume</a></li>
             </ul>
         </nav>
         
@@ -970,6 +1106,140 @@
                 heroImg.style.transform = `translateY(${scroll * 0.1}px) scale(1.05)`;
             }
         });
+
+        // Resume Modal Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const resumeModal = document.getElementById('resume-modal');
+            const resumeLink = document.getElementById('resume-link');
+            const closeModal = document.getElementById('close-modal');
+
+            if (resumeLink && resumeModal && closeModal) {
+                resumeLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    resumeModal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                closeModal.addEventListener('click', () => {
+                    resumeModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                });
+
+                window.addEventListener('click', (e) => {
+                    if (e.target === resumeModal) {
+                        resumeModal.classList.remove('show');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+        });
     </script>
+
+    <!-- Resume Modal -->
+    <div id="resume-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="section-title" style="font-size: 2rem; margin: 0;">Resume</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="Abhijith_KR_CV.docx" class="primary-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;" download>Download .docx</a>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="resume-section">
+                    <h3>Abhijith K R</h3>
+                    <p class="resume-subtitle">Digital Marketing Specialist | SEO | Meta Ads | Social Media</p>
+                    <p class="resume-contact">Kochi, India | +91-9895239195 | abhijithkr0007@gmail.com | linkedin.com/in/abhijith-kr</p>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Professional Summary</h4>
+                    <p>Results-driven Digital Marketing Specialist with 2+ years of experience in SEO, Meta Ads, and social media marketing. Proven track record of delivering measurable business impact — including generating ₹1 crore+ in revenue for a client through targeted Meta Ads strategy. Experienced in technical SEO, on-page/off-page optimisation, keyword research, and paid social campaigns. Adept with industry tools including Google Search Console, Google Analytics, SEMrush, and Meta Business Suite.</p>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Technical Skills</h4>
+                    <ul class="resume-list">
+                        <li><strong>SEO & Search:</strong> On-Page SEO, Technical SEO, Off-Page SEO, Keyword Research, SEO Audits, Page Speed Optimisation</li>
+                        <li><strong>Paid Advertising:</strong> Meta Ads (Facebook & Instagram), Google Ads, A/B Testing, Campaign Optimisation, Lead Generation</li>
+                        <li><strong>Social Media:</strong> Social Media Management, Content Strategy, Ad Creative & Copywriting</li>
+                        <li><strong>Tools & Platforms:</strong> Google Analytics, Google Search Console, SEMrush, Meta Business Suite, WordPress, Google My Business</li>
+                    </ul>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Professional Experience</h4>
+                    <div class="resume-job">
+                        <h5>Freelance Digital Marketing Specialist — Roofing Industry Client</h5>
+                        <span class="resume-date">Remote | 2025 – Present</span>
+                        <ul class="resume-list">
+                            <li>Managed end-to-end digital marketing for a roofing company including social media, Meta Ads, and content strategy.</li>
+                            <li>Generated ₹1 crore+ in business revenue within 6 months through a high-converting Meta Ads strategy.</li>
+                            <li>Built and managed Facebook and Instagram brand presence, growing engagement and follower base organically.</li>
+                            <li>Created ad creatives, captions, and audience targeting strategies for both lead generation and brand awareness campaigns.</li>
+                            <li>Conducted A/B testing and ongoing campaign optimisation to maximise ROI and lower cost-per-lead.</li>
+                            <li>Tracked and reported campaign performance using Meta Ads Manager and Meta Business Suite insights.</li>
+                        </ul>
+                    </div>
+
+                    <div class="resume-job">
+                        <h5>SEO Analyst — RedTeam Hacker Academy</h5>
+                        <span class="resume-date">Kochi, India | Oct 2025 – May 2026</span>
+                        <ul class="resume-list">
+                            <li>Performed keyword research and implemented on-page SEO optimisation for cybersecurity course pages.</li>
+                            <li>Optimised meta titles, descriptions, heading structures, and internal linking to improve organic search rankings.</li>
+                            <li>Identified and resolved technical SEO issues including canonical errors, indexing issues, and crawl problems.</li>
+                            <li>Monitored website performance using Google Search Console and Google Analytics.</li>
+                            <li>Conducted regular SEO audits and page speed optimisation to enhance website performance and user experience.</li>
+                            <li>Targeted competitive keywords such as "cybersecurity course in Kerala" to increase organic visibility.</li>
+                        </ul>
+                    </div>
+
+                    <div class="resume-job">
+                        <h5>Freelance Digital Marketer — Various Clients</h5>
+                        <span class="resume-date">Remote | 2024 – Present</span>
+                        <ul class="resume-list">
+                            <li>Managed Meta Ads campaigns for multiple clients focused on lead generation and brand awareness.</li>
+                            <li>Created ad creatives, copywriting, and audience targeting strategies for Facebook and Instagram.</li>
+                            <li>Performed A/B testing and campaign optimisation to improve engagement and conversion rates.</li>
+                        </ul>
+                    </div>
+
+                    <div class="resume-job">
+                        <h5>Digital Marketing Intern — Bluepin Digitals</h5>
+                        <span class="resume-date">Kochi, India | 2024</span>
+                        <ul class="resume-list">
+                            <li>Conducted SEO keyword research, on-page optimisation, and backlink building activities.</li>
+                            <li>Assisted in Google Ads campaign setup and performance optimisation.</li>
+                            <li>Supported social media marketing campaigns on Facebook and Instagram.</li>
+                            <li>Used Google Analytics, Google Search Console, and SEMrush to track and report performance metrics.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Education</h4>
+                    <p><strong>B.Tech in Computer Science Engineering</strong><br>SNGIST Group of Institutions, Ernakulam | 2025</p>
+                    <p style="margin-top: 1rem;"><strong>Certified Digital Marketing Specialist (CDMS)</strong><br>DigitalX Marketers Academy, Kochi</p>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Certifications</h4>
+                    <ul class="resume-list">
+                        <li>CDMS – DigitalX Marketers Academy</li>
+                        <li>SEO Certification – HubSpot Academy</li>
+                        <li>SEO Certification – SEMrush Academy</li>
+                        <li>Google Analytics Certification – Google</li>
+                        <li>Google My Business Certification – Google</li>
+                    </ul>
+                </div>
+
+                <div class="resume-section">
+                    <h4>Soft Skills</h4>
+                    <p>Analytical Thinking • Time Management • Problem Solving • Adaptability • Client Communication</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
